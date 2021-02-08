@@ -3,10 +3,25 @@ import style from "../styles/Home.module.scss";
 import Link from "next/link";
 import UrlShortener from "../components/UrlShortener";
 import ShortenUrl from "../components/ShortenUrl";
-function Home() {
+import axios from "axios";
+import { useState } from "react";
+
+const Home = () => {
+  const [shortUrl, setShortUrl] = useState("");
+  const [longUrl, setLongUrl] = useState("");
+
+  //Handle post request to backend
+  async function postLongUrl(url) {
+    const response = await axios.post("http://localhost:5000/api/url/shorten", {
+      longUrl: url,
+    });
+    const { shortUrl, longUrl } = response.data;
+    setShortUrl(shortUrl);
+    setLongUrl(longUrl);
+  }
   return (
     <Layout pageTitle="Home">
-      <div>
+      <>
         <div className={style.container}>
           <div className={style.copy_right}>
             <h1>More then just shorter links</h1>
@@ -27,15 +42,12 @@ function Home() {
         </div>
 
         <section className={style.main} id="start">
-          <UrlShortener />
-          <ShortenUrl
-            longUrl="https://longsideoflife.io"
-            shortUrl="https://lil_link/k4lgk"
-          />
+          <UrlShortener handlePost={postLongUrl} />
+          <ShortenUrl longUrl={longUrl} shortUrl={shortUrl} />
         </section>
-      </div>
+      </>
     </Layout>
   );
-}
+};
 
 export default Home;

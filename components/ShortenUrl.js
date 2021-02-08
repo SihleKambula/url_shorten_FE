@@ -7,23 +7,32 @@ function ShortenUrl({ longUrl, shortUrl }) {
   const [copyTitle, setCopyTitle] = useState("Copy");
 
   //handle copy link functionality
-  function copyLink() {
+  async function copyLink() {
     setCopy(style.copied);
     setCopyTitle("Copied");
   }
-
   return (
-    <div className={style.container}>
-      <div className={style.long_url}>
-        <p>{longUrl}</p>
-      </div>
-      <div className={style.shorten_url}>
-        <p>{shortUrl}</p>
-        <button className={copy} onClick={copyLink}>
-          {copyTitle}
-        </button>
-      </div>
-    </div>
+    <>
+      {longUrl ? (
+        <div className={style.container}>
+          <div className={style.long_url}>
+            <p>{longUrl}</p>
+          </div>
+          <div className={style.shorten_url}>
+            <p>
+              <a href={shortUrl} target="blank">
+                {shortUrl}
+              </a>
+            </p>
+            <button className={copy} onClick={copyLink}>
+              {copyTitle}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </>
   );
 }
 

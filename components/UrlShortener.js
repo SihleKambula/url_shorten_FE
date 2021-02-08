@@ -1,23 +1,25 @@
 import style from "../styles/UrlShortener.module.scss";
 import { useState } from "react";
 
-function UrlShortener() {
+const UrlShortener = ({ handlePost }) => {
   //show border upon error
   const [errorBorder, setErrorBorder] = useState(style.no_error);
 
   //Dymainc show of error message
   const [isError, setIsError] = useState(null);
 
-  const [urlLink, setUrlLink] = useState(null);
+  const [urlLink, setUrlLink] = useState("");
 
   // Handle link submition
-  function handleClick() {
+  async function handleClick() {
     if (!urlLink) {
       setErrorBorder(style.error);
       setIsError(style.error_message);
     } else {
+      handlePost(urlLink);
       setErrorBorder(style.no_error);
       setIsError(null);
+      setUrlLink("");
     }
   }
   return (
@@ -33,6 +35,6 @@ function UrlShortener() {
       {isError && <div className={style.error_message}>Please add a link</div>}
     </div>
   );
-}
+};
 
 export default UrlShortener;
