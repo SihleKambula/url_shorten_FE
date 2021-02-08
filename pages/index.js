@@ -4,9 +4,12 @@ import Link from "next/link";
 import UrlShortener from "../components/UrlShortener";
 import ShortenUrl from "../components/ShortenUrl";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FirebaseContext } from "../logic/context";
 
 const Home = () => {
+  const { savedUrls } = useContext(FirebaseContext);
+
   const [shortUrl, setShortUrl] = useState("");
   const [longUrl, setLongUrl] = useState("");
 
@@ -44,6 +47,16 @@ const Home = () => {
         <section className={style.main} id="start">
           <UrlShortener handlePost={postLongUrl} />
           <ShortenUrl longUrl={longUrl} shortUrl={shortUrl} />
+          {savedUrls &&
+            savedUrls.docs.map((doc) => {
+              return (
+                <ShortenUrl
+                  key={doc.id}
+                  longUrl={doc.data().longUrl}
+                  shortUrl={doc.data().shortUrl}
+                />
+              );
+            })}
         </section>
       </>
     </Layout>
