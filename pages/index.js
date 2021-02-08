@@ -8,8 +8,10 @@ import { useContext, useState } from "react";
 import { FirebaseContext } from "../logic/context";
 
 const Home = () => {
+  // context data
   const { savedUrls } = useContext(FirebaseContext);
 
+  //state
   const [shortUrl, setShortUrl] = useState("");
   const [longUrl, setLongUrl] = useState("");
 

@@ -1,5 +1,4 @@
 import { useState, useEffect, createContext } from "react";
-import axios from "axios";
 import { auth, firestoreDB } from "../firebase/config";
 
 // ------------------FIREBASE CONTEXT-------------------//
@@ -55,17 +54,29 @@ const FirebaseContextProvider = (props) => {
 
   useEffect(() => {
     if (userStatus) {
-      getData().then((result) => {
-        setSavedUrls(result);
-      });
+      getData().then((result) => setSavedUrls(result));
     }
     setSavedUrls(null);
   }, [userStatus]);
 
-  // get urls
+  // get saved urls from firebase based on users uid
   async function getData() {
-    const result = await firestoreDB.collection("urls").get();
+    const result = await firestoreDB
+      .collection("urls")
+      .where("id", "==", userStatus.uid)
+      .get();
+
     return result;
+  }
+
+  // save urls to DB based on users uid
+  async function saveUrls(longUrl, shortUrl) {
+    const result = await firestoreDB.collection("urls").add({
+      longUrl,
+      shortUrl,
+      id: userStatus.uid,
+    });
+    // console.log(result);
   }
 
   // context provider
@@ -84,20 +95,5 @@ const FirebaseContextProvider = (props) => {
     </FirebaseContext.Provider>
   );
 };
-
-// ----------------BACKEND LOGIC------------------//
-
-// const [shortUrl, setShortUrl] = useState("");
-// const [longUrl, setLongUrl] = useState("");
-
-// //Handle post request to backend
-// async function postLongUrl(url) {
-//   const response = await axios.post("http://localhost:5000/api/url/shorten", {
-//     longUrl: url,
-//   });
-//   const { shortUrl, longUrl } = response.data;
-//   setShortUrl(shortUrl);
-//   setLongUrl(longUrl);
-// }
 
 export default FirebaseContextProvider;
