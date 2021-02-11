@@ -13,7 +13,7 @@ function ShortenUrl({ longUrl, shortUrl }) {
   }
   return (
     <>
-      {longUrl ? (
+      {longUrl && shortUrl ? (
         <div className={style.container}>
           <div className={style.long_url}>
             <p>{longUrl}</p>

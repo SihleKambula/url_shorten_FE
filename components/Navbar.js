@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { FirebaseContext } from "../logic/context";
 import style from "../styles/Navbar.module.scss";
+import cx from "classnames";
 
 function Navbar() {
   // --------------CONTEXT------------//
@@ -43,9 +44,7 @@ function Navbar() {
         <div></div>
         <div></div>
       </div>
-      {/* TODO: install classNames so we can use cx() to set multiple classes 
-      // show ? style.show : show.hide */}
-      <ul className={style.nav_links}>
+      <ul className={cx(style.nav_links, show ? style.show : style.hide)}>
         <li>
           <Link href="/">Home</Link>
         </li>
