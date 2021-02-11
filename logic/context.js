@@ -50,33 +50,39 @@ const FirebaseContextProvider = (props) => {
 
   // get saved urls for firebase firestore
 
-  const [savedUrls, setSavedUrls] = useState(null);
+  // const [savedUrls, setSavedUrls] = useState(null);
 
-  useEffect(() => {
-    if (userStatus) {
-      getData().then((result) => setSavedUrls(result));
-    }
-    setSavedUrls(null);
-  }, [userStatus]);
+  // useEffect(() => {
+  //   if (userStatus) {
+  //     firestoreDB
+  //       .collection("urls")
+  //       .where("id", "==", userStatus.uid)
+  //       .onSnapshot((snapshot) => {
+  //         snapshot.docs.forEach((doc) => {
+  //           console.log(doc.data());
+  //         });
+  //       });
+  //   }
+  //   setSavedUrls(null);
+  // }, [userStatus]);
 
-  // get saved urls from firebase based on users uid
-  async function getData() {
-    const result = await firestoreDB
-      .collection("urls")
-      .where("id", "==", userStatus.uid)
-      .get();
+  // // get saved urls from firebase based on users uid
+  // async function getData() {
+  //   const result = await firestoreDB
+  //     .collection("urls")
+  //     .where("id", "==", userStatus.uid)
+  //     .get();
 
-    return result;
-  }
+  //   return result;
+  // }
 
   // save urls to DB based on users uid
-  async function saveUrls(longUrl, shortUrl) {
-    const result = await firestoreDB.collection("urls").add({
+  async function saveUrlToDB(longUrl, shortUrl) {
+    await firestoreDB.collection("urls").add({
       longUrl,
       shortUrl,
       id: userStatus.uid,
     });
-    // console.log(result);
   }
 
   // context provider
@@ -87,8 +93,8 @@ const FirebaseContextProvider = (props) => {
         signUserIn,
         userStatus,
         signUserOut,
-        getData,
-        savedUrls,
+
+        saveUrlToDB,
       }}
     >
       {props.children}

@@ -1,25 +1,34 @@
 import style from "../styles/UrlShortener.module.scss";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BackendContext } from "../logic/backendContext";
+import { FirebaseContext } from "../logic/context";
 
-const UrlShortener = ({ handlePost }) => {
+const UrlShortener = () => {
+  //context
+  const { createShortUrlFromLongUrl } = useContext(BackendContext);
+  const { saveUrlToDB, userStatus } = useContext(FirebaseContext);
+
   //show border upon error
   const [errorBorder, setErrorBorder] = useState(style.no_error);
 
   //Dymainc show of error message
   const [isError, setIsError] = useState(null);
 
-  const [urlLink, setUrlLink] = useState("");
+  const [url, setUrl] = useState("");
 
   // Handle link submition
   async function handleClick() {
-    if (!urlLink) {
+    if (!url) {
       setErrorBorder(style.error);
       setIsError(style.error_message);
     } else {
-      handlePost(urlLink);
+      const result = await createShortUrlFromLongUrl(url);
+      if (userStatus) {
+        saveUrlToDB(result.longUrl, result.shortUrl);
+      }
       setErrorBorder(style.no_error);
       setIsError(null);
-      setUrlLink("");
+      setUrl("");
     }
   }
   return (
@@ -28,8 +37,8 @@ const UrlShortener = ({ handlePost }) => {
         type="text"
         placeholder="Shorten a link here...."
         className={errorBorder}
-        value={urlLink}
-        onChange={(e) => setUrlLink(e.target.value)}
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
       />
       <button onClick={handleClick}>Shorten It!</button>
       {isError && <div className={style.error_message}>Please add a link</div>}

@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <Layout pageTitle="Login">
-      <div>
+      <div className={style.container}>
         <form className={style.form} onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input

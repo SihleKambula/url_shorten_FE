@@ -9,16 +9,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
 }
 
 .shorten_url,
 .long_url {
   font-size: 1.3rem;
+  width: 600px;
+  overflow: hidden;
 }
 
 .shorten_url {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-left: 10px;
 
   p {
     margin-right: 10px;

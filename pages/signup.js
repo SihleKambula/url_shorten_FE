@@ -35,7 +35,7 @@ function Signup() {
 
   return (
     <Layout>
-      <div>
+      <div className={style.container}>
         <form className={style.form} onSubmit={handleSubmit}>
           {/* userName */}
           <label htmlFor="username">Username</label>
