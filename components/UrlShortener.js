@@ -22,6 +22,7 @@ const UrlShortener = () => {
       setErrorBorder(style.error);
       setIsError(style.error_message);
     } else {
+      // communitcate with backend to get shorten url
       const result = await createShortUrlFromLongUrl(url);
       if (userStatus) {
         saveUrlToDB(result.longUrl, result.shortUrl);

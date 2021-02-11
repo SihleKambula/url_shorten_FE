@@ -1,5 +1,6 @@
 import style from "../styles/ShortenUrl.module.scss";
 import { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function ShortenUrl({ longUrl, shortUrl }) {
   // Changing copy button background
@@ -24,9 +25,9 @@ function ShortenUrl({ longUrl, shortUrl }) {
                 {shortUrl}
               </a>
             </p>
-            <button className={copy} onClick={copyLink}>
-              {copyTitle}
-            </button>
+            <CopyToClipboard text={shortUrl} onCopy={copyLink}>
+              <button className={copy}>{copyTitle}</button>
+            </CopyToClipboard>
           </div>
         </div>
       ) : (

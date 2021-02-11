@@ -1,4 +1,4 @@
-// get real time data from firestore when the component mounts
+// get real time data from firestore when the component mount
 
 import { firestoreDB } from "../firebase/config";
 import { useState, useEffect } from "react";

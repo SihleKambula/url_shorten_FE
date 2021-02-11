@@ -3,29 +3,13 @@ import style from "../styles/Home.module.scss";
 import Link from "next/link";
 import UrlShortener from "../components/UrlShortener";
 import ShortenUrl from "../components/ShortenUrl";
-import axios from "axios";
 import { useContext, useState } from "react";
 import { FirebaseContext } from "../logic/context";
 import { BackendContext } from "../logic/backendContext";
 
 const Home = () => {
   // context data
-  const { savedUrls } = useContext(FirebaseContext);
   const { urls } = useContext(BackendContext);
-
-  //state
-  const [shortUrl, setShortUrl] = useState("");
-  const [longUrl, setLongUrl] = useState("");
-
-  //Handle post request to backend
-  async function postLongUrl(url) {
-    const response = await axios.post("http://localhost:5000/api/url/shorten", {
-      longUrl: url,
-    });
-    const { shortUrl, longUrl } = response.data;
-    setShortUrl(shortUrl);
-    setLongUrl(longUrl);
-  }
   return (
     <Layout pageTitle="Home">
       <>
@@ -49,21 +33,11 @@ const Home = () => {
         </div>
 
         <section className={style.main} id="start">
-          <UrlShortener handlePost={postLongUrl} />
+          <UrlShortener />
+          {/* Show the converted url */}
           {urls && (
             <ShortenUrl longUrl={urls.longUrl} shortUrl={urls.shortUrl} />
           )}
-
-          {savedUrls &&
-            savedUrls.docs.map((doc) => {
-              return (
-                <ShortenUrl
-                  key={doc.id}
-                  longUrl={doc.data().longUrl}
-                  shortUrl={doc.data().shortUrl}
-                />
-              );
-            })}
         </section>
       </>
     </Layout>

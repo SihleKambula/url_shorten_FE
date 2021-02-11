@@ -1,7 +1,7 @@
 @import "./shared/utils.scss";
 
 .container {
-  width: 1000px;
+  width: 1200px;
   margin: 20px auto;
   background-color: #fff;
   padding: 15px 30px;
@@ -9,14 +9,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden;
 }
 
 .shorten_url,
 .long_url {
   font-size: 1.3rem;
-  width: 600px;
-  overflow: hidden;
+}
+.long_url {
+  width: 500px;
+  p {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .shorten_url {
