@@ -10,7 +10,7 @@ const BackendContextProvider = (props) => {
   async function createShortUrlFromLongUrl(longUrl) {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/url/shorten",
+        "https://ln-k.herokuapp.com/api/url/shorten",
         {
           longUrl,
         }
