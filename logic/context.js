@@ -78,6 +78,16 @@ const FirebaseContextProvider = (props) => {
 
   // save urls to DB based on users uid
   async function saveUrlToDB(longUrl, shortUrl) {
+    const result = await firestoreDB
+      .collection("urls")
+      .where("id", "==", userStatus.uid)
+      .where("longUrl", "==", longUrl)
+      .get();
+
+    if (result.docs.length) {
+      console.log(result.docs);
+      return true;
+    }
     await firestoreDB.collection("urls").add({
       longUrl,
       shortUrl,
